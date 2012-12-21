@@ -1,0 +1,23 @@
+---
+cloud_controller_uri: http://api.<%= node[:deployment][:domain]%>
+service:
+  name: mongodb
+  version: "1.8"
+  description: 'MongoDB NoSQL store'
+  plans: ['free']
+  default_plan: 'free'
+  tags: ['nosql', 'document']
+  timeout: 15
+  supported_versions: ['1.8', '2.0']
+  version_aliases:
+    "next": "2.0"
+    "current": "1.8"
+
+host: <%=node[:ipaddress]%>
+index: 0
+token: changemongodbtoken
+mbus: nats://nats:nats@<%=node[:ipaddress]%>:4222/
+pid: /var/vcap/sys/run/mongodb_service.pid
+node_timeout: 5
+logging:
+  level: debug

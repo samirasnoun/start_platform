@@ -1,0 +1,28 @@
+---
+capacity: 50
+plan: free
+local_db: sqlite3:/var/vcap/services/mysql/mysql_node.db
+base_dir: /var/vcap/services/mysql/
+mysqldump_bin: mysqldump
+gzip_bin: gzip
+mysql_bin: mysql
+mbus: nats://nats:nats@<%=node[:ipaddress]%>:4222/
+index: 0
+pid: /var/vcap/sys/run/mysql_node.pid
+node_id: mysql_node_0
+supported_versions: ['5.1']
+default_version: "5.1"
+op_time_limit: 6
+connection_wait_timeout: 10
+max_db_size: 20
+max_long_query: 3
+max_long_tx: 30
+kill_long_tx: true
+migration_nfs: /mnt/migration
+mysql:
+  host: localhost
+  port: 3306
+  user: root
+  pass: mysql
+logging:
+  level: debug

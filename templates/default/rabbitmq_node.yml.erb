@@ -1,0 +1,33 @@
+---
+capacity: 100
+plan: free
+local_db: sqlite3:/var/vcap/services/rabbit/rabbit_node.db
+base_dir: /var/vcap/services/rabbit/instances
+mbus: nats://nats:nats@<%=node[:ipaddress]%>:4222/
+index: 0
+logging:
+  level: debug
+pid: /var/vcap/sys/run/rabbit_node.pid
+node_id: rabbit_node_free_0
+supported_versions: ['2.4', '2.8']
+default_version: "2.4"
+op_time_limit: 6
+migration_nfs: /mnt/vcap
+port_range:
+  first: 10001
+  last: 20000
+admin_port_range:
+  first: 20001
+  last: 30000
+max_clients: 1000
+rabbitmq_log_dir: /var/vcap/services/rabbit/logs
+rabbitmq_server: /root/cloudfoundry/.deployments/allinone/deploy/rabbitmq/2.4.1/sbin/rabbitmq-server
+rabbitmq_start_timeout: 5
+rabbit:
+  '2.4':
+    config_template: ../../../resources/rabbitmq24.config.erb
+    rabbitmq_server: /root/cloudfoundry/.deployments/allinone/deploy/rabbitmq/2.4.1/sbin/rabbitmq-server
+  '2.8':
+    config_template: ../../../resources/rabbitmq28.config.erb
+    rabbitmq_server: /root/cloudfoundry/.deployments/allinone/deploy/rabbitmq/2.8.7/sbin/rabbitmq-server
+    disk_free_limit: 13421772

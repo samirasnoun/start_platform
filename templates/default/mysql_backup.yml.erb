@@ -1,0 +1,17 @@
+---
+service_name: mysql
+backup_base_dir: /var/vcap/backup
+backup_cmd: mysqldump --host=:host --user=:user --password=:passwd --result-file=:full_path/:name.sql -R --single-transaction :name
+compress_cmd: gzip :full_path/:name.sql
+mbus: nats://nats:nats@<%=node[:ipaddress]%>:4222/
+timeout: 600
+index: 0
+pid: /var/vcap/sys/run/mysql_backup.pid
+node_id: mysql_node_0
+mysql:
+  host: <%=node[:ipaddress]%>
+  port: 3306
+  user: root
+  pass: mysql
+logging:
+  level: debug

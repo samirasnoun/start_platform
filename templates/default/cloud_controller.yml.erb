@@ -1,0 +1,135 @@
+---
+# Cloud Controller URI
+external_uri: api.<%= node[:deployment][:domain]%>
+description: <%= node[:deployment][:welcome] %>
+support_address: http://support.cloudfoundry.com
+
+# local_route is the IP address of a well known server on your network, it
+# is used to choose the right ip address (think of hosts that have multiple nics
+# and IP addresses assigned to them) of the host running the cloud controller. Default
+# value of nil, should work in most cases.
+local_route: 
+
+# Specifies if new users are allowed to register via VMC
+allow_registration: true
+
+# Allow applications to register URIs that are outside your domain.
+# Legacy (FIXME REMOVE)
+allow_external_app_uris: false
+
+# This dicatates what the uri namespace rules
+# are for applications. Admins can overide any of the
+# below accept taking a used uri.
+
+app_uris:
+  # Allow applications to register URIs that are outside your domain.
+  allow_external: false
+#  reserved_file:
+#  reserved_list: [www, test, dash, register, foo, bar]
+#  reserved_length: 3
+
+external_port: 9022 #public CC port
+
+# nginx proxy provide multiple functions including offloading of file uploads/downloads.
+nginx:
+  use_nginx: true   #nginx proxy in front of CC?
+  instance_socket: /tmp/cloud_controller.sock
+  # insecure_instance_port: 9025 #debug only!!!! -- not for production use.
+
+# if log_file is set, it must be a fully-qualified path,
+# because the bin/vcap script reads it directly from the file.
+logging:
+  level: debug
+# file:
+
+# Settings for the rails logger
+rails_logging:
+  level: debug
+# file:
+
+directories:
+  droplets: /var/vcap/shared/droplets
+  resources: /var/vcap/shared/resources
+  # default values, relative to Rails.root. Leading slash for full path.
+  staging_manifests: /root/cloudfoundry/.deployments/allinone/config/staging
+  tmpdir: /var/vcap/data/cloud_controller/tmp
+
+# NATS message bus URI
+mbus: nats://nats:nats@<%=node[:ipaddress]%>:4222/
+keys:
+  password: 'password key goes here'
+  token: 'token key goes here'
+pid: /var/vcap/sys/run/cloudcontroller.pid
+rails_environment: production
+database_environment: # replaces database.yml
+  production:
+    database: cloud_controller
+    host: <%=node[:ipaddress]%>
+    port: 5432
+    encoding: utf8
+    username: root
+    password: changeme
+    adapter: postgresql
+    timeout: 2000
+    template: template0 # Required for utf8 encoding
+
+# Enable the use of the uaa
+uaa:
+  enabled: true
+  url: http://uaa.<%= node[:deployment][:domain] %>
+  resource_id: cloud_controller
+  token_secret: uaa_jwt_secret
+  client_secret: cloudcontrollersecret
+  token_creation_email_filter: [""]
+
+# redis for new stager
+redis:
+  host: <%=node[:ipaddress]%>
+  port: 5454
+  password: PoIxbL98RWpwBuUJvKNojnpIcRb1ot2
+
+# App staging parameters
+staging:
+  # Max duration for staging process
+  max_staging_runtime:    120 # secs
+
+  auth:
+    user: zxsfhgjg
+    password: ZNVfdase9
+
+# admin support
+admins: [ <%= node[:cloud_controller][:admins].join(", ") %> ]
+https_required: false
+https_required_for_admins: false
+
+# Controls the amount of resources assigned to a user
+# Normal user accounts
+default_account_capacity:
+  memory:   2048
+  app_uris: 4
+  services: 16
+  apps:     20
+
+# Services we provide, and their tokens. Avoids bootstrapping DB.
+builtin_services:
+  mysql:
+    token: changemysqltoken
+  redis:
+    token: changeredistoken
+  mongodb:
+    token: changemongodbtoken
+  rabbitmq:
+    token: changerabbitmqtoken
+  postgresql:
+    token: changepostgresqltoken
+  blob:
+    token: changevblobtoken
+
+service_proxy:
+  token: ["changebrokertoken"]
+
+# Enable/disable starting apps in debug modes.
+allow_debug: true
+
+
+runtimes_file: /root/cloudfoundry/.deployments/allinone/config/runtimes.yml

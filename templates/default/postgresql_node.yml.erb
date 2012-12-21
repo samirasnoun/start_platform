@@ -1,0 +1,28 @@
+---
+capacity: 50
+plan: free
+local_db: sqlite3:/var/vcap/services/postgresql/postgresql_node.db
+base_dir: /var/vcap/services/postgresql/
+dump_bin: /usr/lib/postgresql/9.0/bin/pg_dump
+restore_bin: /usr/lib/postgresql/9.0/bin/pg_restore
+mbus: nats://nats:nats@<%=node[:ipaddress]%>:4222/
+index: 0
+pid: /var/vcap/sys/run/postgresql_node.pid
+node_id: postgresql_node_0
+supported_versions: ['9.0']
+default_version: "9.0"
+op_time_limit: 6
+max_db_size: 20
+max_long_query: 3
+max_long_tx: 30
+max_db_conns: 20
+db_size_overhead: 5.4
+migration_nfs: /mnt/migration
+postgresql:
+  host: localhost
+  port: 5433
+  user: root
+  pass: changeme
+  database: pg_service
+logging:
+  level: debug

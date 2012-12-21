@@ -1,0 +1,21 @@
+---
+cloud_controller_uri: http://api.<%= node[:deployment][:domain]%>
+service:
+  name: mysql
+  version: "5.1"
+  description: 'MySQL database service'
+  plans: ['free']
+  default_plan: 'free'
+  tags: ['relational']
+  timeout: 15
+  supported_versions: ['5.1']
+  version_aliases:
+    "current": "5.1"
+host: <%=node[:ipaddress]%>
+index: 0
+token: changemysqltoken
+mbus: nats://nats:nats@<%=node[:ipaddress]%>:4222/
+pid: /var/vcap/sys/run/mysql_service.pid
+node_timeout: 2
+logging:
+  level: debug

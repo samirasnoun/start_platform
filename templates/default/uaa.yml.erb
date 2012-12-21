@@ -1,0 +1,54 @@
+
+
+pid: /var/vcap/sys/run/uaa.pid
+# NATS message bus URI
+mbus: nats://nats:nats@<%=node[:ipaddress]%>:4222/
+
+name: UAA
+
+database:
+  url: jdbc:postgresql://<%=node[:ipaddress]%>:5432/uaa
+
+jvm_args: -Xmx512m
+spring_profiles: postgresql
+
+cloud_controller:
+  database:
+    url: jdbc:postgresql://<%=node[:ipaddress]%>:5432/cloud_controller
+    username: root
+    password: changeme
+
+jwt:
+  token:
+    signing-key: uaa_jwt_secret
+    verification-key: uaa_jwt_secret
+
+batch:
+  username: batch_user
+  password: batch_password
+
+oauth:
+  clients:
+    admin:
+      authorized-grant-types: client_credentials
+      scope: uaa.none
+      authorities: clients.read,clients.write,clients.secret,uaa.admin,scim.read,scim.write,password.write
+      id: admin
+      secret: adminsecret
+      resource-ids: none
+    cloud_controller:
+      authorized-grant-types: client_credentials
+      scope: uaa.none
+      authorities: scim.read,scim.write,password.write,uaa.resource
+      id: cloud_controller
+      secret: cloudcontrollersecret
+      resource-ids: none
+      access-token-validity: 604800
+    vmc:
+      authorized-grant-types: implicit
+      scope: cloud_controller.read,cloud_controller.write,password.write,openid
+      authorities: uaa.none
+      id: vmc
+      resource-ids: none
+      redirect-uri: http://uaa.cloudfoundry.com/redirect/vmc,https://uaa.cloudfoundry.com/redirect/vmc
+      access-token-validity: 604800

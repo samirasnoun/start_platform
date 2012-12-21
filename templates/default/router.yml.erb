@@ -1,0 +1,8 @@
+# Unix domain socket for connection between nginx and router
+sock: /tmp/router.sock
+
+# NATS message bus URI
+mbus: nats://nats:nats@<%=node[:ipaddress]%>:4222/
+logging:
+  level: info
+pid: /var/vcap/sys/run/router.pid

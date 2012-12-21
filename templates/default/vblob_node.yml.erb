@@ -1,0 +1,28 @@
+---
+capacity: 200
+plan: free
+local_db: sqlite3:/var/vcap/services/vblob/vblob_node.db
+mbus: nats://nats:nats@<%=node[:ipaddress]%>:4222/
+index: 0
+base_dir: /var/vcap/services/vblob/instances
+logging:
+  level: debug
+vblobd_log_dir: /var/vcap/sys/service-log/vblob
+pid: /var/vcap/sys/run/vblob_node.pid
+
+supported_versions: [ "0.51" ]
+default_version: "0.51"
+
+max_memory: 128
+node_id: vblob_node_0
+op_time_limit: 6
+vblob_timeout: 3
+vblob_start_timeout: 10
+nodejs_path: /root/cloudfoundry/.deployments/allinone/deploy/nodes/node-0.6.8/bin/node
+vblobd_path: /var/vcap/packages/vblob/0.51
+vblobd_auth: disabled
+vblobd_quota: 2147483647
+vblobd_obj_limit: 32768
+port_range:
+  first: 45001
+  last: 65000

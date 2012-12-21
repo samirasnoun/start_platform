@@ -1,0 +1,22 @@
+---
+cloud_controller_uri: http://api.<%= node[:deployment][:domain]%>
+service:
+  name: redis
+  version: "2.2"
+  description: 'Redis key-value store service'
+  plans: ['free']
+  default_plan: 'free'
+  tags: ['key-value', 'nosql']
+  timeout: 15
+  supported_versions: ['2.2', '2.4', '2.6']
+  version_aliases:
+    "deprecated": "2.2"
+    "current": "2.6"
+host: localhost
+index: 0
+token: changeredistoken
+mbus: nats://nats:nats@<%=node[:ipaddress]%>:4222/
+node_timeout: 5
+pid: /var/vcap/sys/run/redis_service.pid
+logging:
+  level: debug

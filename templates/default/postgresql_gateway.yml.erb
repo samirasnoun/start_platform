@@ -1,0 +1,21 @@
+---
+cloud_controller_uri: http://api.<%= node[:deployment][:domain]%>
+
+service:
+  name: postgresql
+  version: "9.0"
+  description: 'PostgreSQL database service'
+  plans: ['free']
+  default_plan: 'free'
+  tags: ['relational']
+  timeout: 15
+  supported_versions: ['9.0']
+  version_aliases:
+    "current": "9.0"
+index: 0
+token: changepostgresqltoken
+logging:
+  level: debug
+mbus: nats://nats:nats@<%=node[:ipaddress]%>:4222/
+pid: /var/vcap/sys/run/postgresql_service.pid
+node_timeout: 10

@@ -1,0 +1,30 @@
+---
+capacity: 200
+plan: free
+local_db: sqlite3:/var/vcap/services/redis/redis_node.db
+mbus: nats://nats:nats@<%=node[:ipaddress]%>:4222/
+index: 0
+base_dir: /var/vcap/services/redis/instances
+redis_log_dir: /var/vcap/services/redis/logs
+pid: /var/vcap/sys/run/redis_node.pid
+max_memory: 16
+max_swap: 32
+node_id: redis_node_0
+supported_versions: ['2.2', '2.4', '2.6']
+default_version: "2.2"
+op_time_limit: 6
+redis_server_path:
+  "2.2": "/root/cloudfoundry/.deployments/allinone/deploy/redis/2.2.15/bin/redis-server"
+  "2.4": "/root/cloudfoundry/.deployments/allinone/deploy/redis/2.4.17/bin/redis-server"
+  "2.6": "/root/cloudfoundry/.deployments/allinone/deploy/redis/2.6.2/bin/redis-server"
+
+port_range:
+  first: 5000
+  last: 25000
+migration_nfs: /mnt/vcap
+logging:
+  level: debug
+command_rename_prefix: protect-command-prefix
+max_clients: 500
+redis_timeout: 2
+redis_start_timeout: 3

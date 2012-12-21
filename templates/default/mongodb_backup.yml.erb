@@ -1,0 +1,13 @@
+---
+service_name: mongodb
+backup_base_dir: /var/vcap/backup
+service_base_dir: /var/vcap/services/mongodb/instances
+mongodump_path:
+  "1.8": "/root/cloudfoundry/.deployments/allinone/deploy/mongodb/1.8.5/bin/mongodump"
+  "2.0": "/root/cloudfoundry/.deployments/allinone/deploy/mongodb/2.0.6/bin/mongodump"
+logging:
+  level: debug
+local_db: sqlite3:/var/vcap/services/mongodb/mongodb_node.db
+timeout: 600
+pid: /var/vcap/sys/run/mongodb_node/mongodb_backup.pid
+

@@ -1,0 +1,24 @@
+---
+cloud_controller_uri: http://api.<%= node[:deployment][:domain]%>
+service:
+  name: blob
+  version: "0.51"
+  description: 'Blob service'
+  plans: ['free']
+  default_plan: 'free'
+  tags: ['nosql']
+  timeout: 15
+  supported_versions: [ "0.51" ]
+  version_aliases:
+    "current": "0.51"
+index: 0
+
+token: changevblobtoken
+mbus: nats://nats:nats@<%=node[:ipaddress]%>:4222/
+logging:
+  level: debug
+pid: /var/vcap/sys/run/vblob_service.pid
+node_timeout: 10
+# z_interval: 30
+# check_orphan_interval: 3600
+# double_check_orphan_interval: 300
